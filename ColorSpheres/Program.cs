@@ -2,12 +2,11 @@
 
 public class Color
 {
-    private int red;
-    private int green;
-    private int blue;
-    private int alpha;
+    private readonly int red;
+    private readonly int green;
+    private readonly int blue;
+    private readonly int alpha;
 
-    // Construtor que aceita todos os parâmetros necessários para inicializar o estado de uma cor
     public Color(int red, int green, int blue, int alpha)
     {
         this.red = ValidateColorComponent(red);
@@ -16,24 +15,20 @@ public class Color
         this.alpha = ValidateColorComponent(alpha);
     }
 
-    // Construtor que aceita red, green e blue, colocando alpha a 255 (opaco)
     public Color(int red, int green, int blue) : this(red, green, blue, 255)
     {
     }
 
-    // Métodos getter para os componentes red, green, blue e alpha
     public int Red { get { return red; } }
     public int Green { get { return green; } }
     public int Blue { get { return blue; } }
     public int Alpha { get { return alpha; } }
 
-    // Método para calcular o grau de cinzento da cor
     public int GetGrey()
     {
         return (red + green + blue) / 3;
     }
 
-    // Método para validar os componentes de cor
     private int ValidateColorComponent(int value)
     {
         if (value < 0 || value > 255)
@@ -46,40 +41,37 @@ public class Color
 
 public class Sphere
 {
-    private Color color;
-    private double radius;
+    private readonly Color color;
+    private readonly double radius;
     private int timesThrown;
+    private bool popped; // Indica se a esfera foi furada
 
-    // Construtor que aceita a cor e o raio da esfera
     public Sphere(Color color, double radius)
     {
         this.color = color;
         this.radius = radius;
         this.timesThrown = 0;
+        this.popped = false; // Inicialmente, a esfera não está furada
     }
 
-    // Método para furar a esfera (coloca o raio a zero)
     public void Pop()
     {
-        radius = 0;
+        popped = true; // Marca a esfera como furada
     }
 
-    // Método para incrementar o número de vezes que a esfera foi atirada
     public void Throw()
     {
-        if (radius > 0)
+        if (!popped && radius > 0) // Apenas incrementa o número de vezes que a esfera foi atirada se ela não estiver furada e o raio for maior que zero
         {
             timesThrown++;
         }
     }
 
-    // Método para obter o número de vezes que a esfera foi atirada
     public int GetTimesThrown()
     {
         return timesThrown;
     }
 
-    // Propriedades para acessar a cor e o raio da esfera
     public Color Color { get { return color; } }
     public double Radius { get { return radius; } }
 }
