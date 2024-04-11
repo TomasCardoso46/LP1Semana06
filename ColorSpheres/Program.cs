@@ -2,31 +2,50 @@
 
 public class Color
 {
-    private readonly int red;
-    private readonly int green;
-    private readonly int blue;
-    private readonly int alpha;
+    private int red;
+    private int green;
+    private int blue;
+    private int alpha;
 
     public Color(int red, int green, int blue, int alpha)
     {
-        this.red = ValidateColorComponent(red);
-        this.green = ValidateColorComponent(green);
-        this.blue = ValidateColorComponent(blue);
-        this.alpha = ValidateColorComponent(alpha);
+        Red = red;
+        Green = green;
+        Blue = blue;
+        Alpha = alpha;
     }
 
     public Color(int red, int green, int blue) : this(red, green, blue, 255)
     {
     }
 
-    public int Red { get { return red; } }
-    public int Green { get { return green; } }
-    public int Blue { get { return blue; } }
-    public int Alpha { get { return alpha; } }
+    public int Red
+    {
+        get { return red; }
+        set { red = ValidateColorComponent(value); }
+    }
+
+    public int Green
+    {
+        get { return green; }
+        set { green = ValidateColorComponent(value); }
+    }
+
+    public int Blue
+    {
+        get { return blue; }
+        set { blue = ValidateColorComponent(value); }
+    }
+
+    public int Alpha
+    {
+        get { return alpha; }
+        set { alpha = ValidateColorComponent(value); }
+    }
 
     public int GetGrey()
     {
-        return (red + green + blue) / 3;
+        return (Red + Green + Blue) / 3;
     }
 
     private int ValidateColorComponent(int value)
@@ -41,27 +60,25 @@ public class Color
 
 public class Sphere
 {
-    private readonly Color color;
-    private readonly double radius;
+    private Color color;
+    private double radius;
     private int timesThrown;
-    private bool popped; // Indica se a esfera foi furada
 
     public Sphere(Color color, double radius)
     {
-        this.color = color;
-        this.radius = radius;
+        this.Color = color;
+        this.Radius = radius;
         this.timesThrown = 0;
-        this.popped = false; // Inicialmente, a esfera não está furada
     }
 
     public void Pop()
     {
-        popped = true; // Marca a esfera como furada
+        Radius = 0;
     }
 
     public void Throw()
     {
-        if (!popped && radius > 0) // Apenas incrementa o número de vezes que a esfera foi atirada se ela não estiver furada e o raio for maior que zero
+        if (Radius > 0)
         {
             timesThrown++;
         }
@@ -72,8 +89,17 @@ public class Sphere
         return timesThrown;
     }
 
-    public Color Color { get { return color; } }
-    public double Radius { get { return radius; } }
+    public Color Color
+    {
+        get { return color; }
+        set { color = value; }
+    }
+
+    public double Radius
+    {
+        get { return radius; }
+        set { radius = value; }
+    }
 }
 
 class Program
@@ -81,7 +107,7 @@ class Program
     static void Main(string[] args)
     {
         // Criando uma cor vermelha
-        Color color = new Color(255, 0, 0); 
+        Color color = new Color(255, 0, 0);
 
         // Criando uma esfera vermelha com raio 5
         Sphere sphere1 = new Sphere(color, 5);
