@@ -2,50 +2,31 @@
 
 public class Color
 {
-    private int red;
-    private int green;
-    private int blue;
-    private int alpha;
+    private readonly int red;
+    private readonly int green;
+    private readonly int blue;
+    private readonly int alpha;
 
     public Color(int red, int green, int blue, int alpha)
     {
-        Red = red;
-        Green = green;
-        Blue = blue;
-        Alpha = alpha;
+        this.red = ValidateColorComponent(red);
+        this.green = ValidateColorComponent(green);
+        this.blue = ValidateColorComponent(blue);
+        this.alpha = ValidateColorComponent(alpha);
     }
 
     public Color(int red, int green, int blue) : this(red, green, blue, 255)
     {
     }
 
-    public int Red
-    {
-        get { return red; }
-        set { red = ValidateColorComponent(value); }
-    }
-
-    public int Green
-    {
-        get { return green; }
-        set { green = ValidateColorComponent(value); }
-    }
-
-    public int Blue
-    {
-        get { return blue; }
-        set { blue = ValidateColorComponent(value); }
-    }
-
-    public int Alpha
-    {
-        get { return alpha; }
-        set { alpha = ValidateColorComponent(value); }
-    }
+    public int Red { get { return red; } }
+    public int Green { get { return green; } }
+    public int Blue { get { return blue; } }
+    public int Alpha { get { return alpha; } }
 
     public int GetGrey()
     {
-        return (Red + Green + Blue) / 3;
+        return (red + green + blue) / 3;
     }
 
     private int ValidateColorComponent(int value)
@@ -60,25 +41,25 @@ public class Color
 
 public class Sphere
 {
-    private Color color;
-    private double radius;
+    private readonly Color color;
+    private readonly double radius;
     private int timesThrown;
 
     public Sphere(Color color, double radius)
     {
-        this.Color = color;
-        this.Radius = radius;
+        this.color = color;
+        this.radius = radius;
         this.timesThrown = 0;
     }
 
     public void Pop()
     {
-        Radius = 0;
+        radius = 0; // Não podemos usar 'readonly' aqui, pois 'radius' precisa ser alterado.
     }
 
     public void Throw()
     {
-        if (Radius > 0)
+        if (radius > 0)
         {
             timesThrown++;
         }
@@ -89,25 +70,17 @@ public class Sphere
         return timesThrown;
     }
 
-    public Color Color
-    {
-        get { return color; }
-        set { color = value; }
-    }
-
-    public double Radius
-    {
-        get { return radius; }
-        set { radius = value; }
-    }
+    public Color Color { get { return color; } }
+    public double Radius { get { return radius; } }
 }
+
 
 class Program
 {
     static void Main(string[] args)
     {
         // Criando uma cor vermelha
-        Color color = new Color(255, 0, 0);
+        Color color = new Color(255, 0, 0); 
 
         // Criando uma esfera vermelha com raio 5
         Sphere sphere1 = new Sphere(color, 5);
