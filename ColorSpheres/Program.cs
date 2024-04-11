@@ -28,6 +28,16 @@ public class Color
     {
         return (red + green + blue) / 3;
     }
+
+    // Método para validar os componentes de cor
+    private int ValidateColorComponent(int value)
+    {
+        if (value < 0 || value > 255)
+        {
+            throw new ArgumentException("Color component must be between 0 and 255");
+        }
+        return value;
+    }
 }
 
 public class Sphere
@@ -60,6 +70,10 @@ public class Sphere
     {
         return timesThrown;
     }
+
+    // Adicionando propriedades para acessar a cor e o raio da esfera
+    public Color Color { get { return color; } }
+    public double Radius { get { return radius; } }
 }
 
 class Program
@@ -91,5 +105,3 @@ class Program
         Console.WriteLine($"Número de vezes que a esfera foi atirada: {sphere.GetTimesThrown()}");
     }
 }
-
-
